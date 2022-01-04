@@ -1,0 +1,24 @@
+{% load i18n %}{% include "django/forms/widgets/input.html" %}{% get_current_language as LANGUAGE_CODE %}
+<script>  $(function () 
+{ const DATE_PICKER_OPTIONS = 
+{      'en-us': { format: 'yyyy-mm-dd', 
+                   language: ''},      
+                   'es': {format: 'dd/mm/yyyy',language: 'es-ES'} 
+                   };  
+                   let options = DATE_PICKER_OPTIONS['{{ LANGUAGE_CODE }}'];    
+                   $("input[name='{{ widget.name }}']").datepicker({
+                        beforeShowDay: function(date) {
+                            var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                            return array.indexOf(string) != -1 ? [false] : $.datepicker.noWeekends(date);
+                        }
+});
+</script>
+
+var array = ["2021-09-28", "2021-09-29", "2021-09-30"]
+
+$('vDateField').datepicker({
+    beforeShowDay: function(date) {
+        var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+        return array.indexOf(string) != -1 ? [false] : $.datepicker.noWeekends(date);
+    }
+});

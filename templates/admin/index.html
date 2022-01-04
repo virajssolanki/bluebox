@@ -1,0 +1,20 @@
+{% extends "admin/index.html" %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script>
+        jQuery.noConflict();
+        (function($) {
+            $(function() {
+                var array = ["2021-09-28", "2021-09-29", "2021-09-30"]
+                console.log(JSON.parse('{{extra_context|safe}}'))
+                $('#id_date').datepicker({
+                    beforeShowDay: function(date) {
+                        var string = $.datepicker.formatDate('yy-mm-dd', date);
+                        return [array.indexOf(string) == -1]
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+{% endblock %}
