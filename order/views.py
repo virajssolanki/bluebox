@@ -42,7 +42,7 @@ def _send_order_email(order):
         dict['title'] = i.product.title
         moving_supplies.append(dict)
     context['moving_supplies'] = moving_supplies
-
+ 
     packages = []
     for i in package_items:
         dict = {}
@@ -56,7 +56,8 @@ def _send_order_email(order):
     if query is not None:
         context['rental'] = query.rental.period
     
-    context['order'] = model_to_dict(order)        
+    context['order'] = model_to_dict(order)    
+    print(model_to_dict(order), "order email model_to_dict")    
     context['customer'] = model_to_dict(order.ordered_by)
     context['pickup_address'] = model_to_dict(order.pickup_adress)
     context['delivery_address'] = model_to_dict(order.delivery_adress)
@@ -179,11 +180,13 @@ def _tax_cart_total(session):
             packing_cart_total += i.cart_price*i.quantity
         total_tax = round(packing_cart_total*tax/100, 2)
         # total_tax = packing_cart_total*tax/100
+    print(total_tax, "total_tax from _tax_cart_total")
     return total_tax
 
 
 def _session_cart_total(session):
     session_cart_total = 0
+    print(session_cart_total, "session_cart_total at starting func _session_cart_total")
     extra_cost = 0
     cart_items = order_models.CartItem.objects.filter(session=session).all()
     packing_items = order_models.CartItem.objects.filter(
@@ -197,11 +200,14 @@ def _session_cart_total(session):
             extra_cost = extra_cost + i.extra_work.price
         except:
             pass
+    print(session_cart_total, "session_cart_total after extra func _session_cart_total")
     if len(cart_items) > 0: 
         for i in cart_items:
             session_cart_total += i.cart_price*i.quantity
+    print(session_cart_total, "session_cart_totalafter cart item func _session_cart_total")
     tax = _tax_cart_total(session)
     session_cart_total = session_cart_total + tax
+    print(session_cart_total, "session_cart_total _session_cart_total return value")
     return {'session_cart_total': session_cart_total, 'extra_cost': extra_cost, 'tax':tax}
 
 
@@ -249,6 +255,7 @@ class TotalListView(APIView):
                         if person.used_voucher.filter(code=code).exists():
                             return Response({'success': 'false', 'msg': 'Coupon code is already used' }, status=status.HTTP_201_CREATED)
                 discount = _calculate_discount(code, session_cart_total["session_cart_total"])
+                print(discount, "discount")
                 if discount['success'] == 'false':
                     response_dic = dict(list(response_dic.items()) + list(discount.items()) + list({ 'discounted_session_total': response_dic['session_cart_total'], 'discount': 0 }.items()))
                     return Response(response_dic, status=status.HTTP_201_CREATED)
@@ -408,6 +415,7 @@ class OrderCreateView(generics.CreateAPIView):
             order_id = order_id, delivery_date= delivery_date, status=status)
         total = _session_cart_total(session)
         order.total = total['session_cart_total']
+        print(order.total, "order.total in create order")
         order.extra_work = total['extra_cost']
         order.tax = total['tax']
         cart_items = order_models.CartItem.objects.filter(session=session).all()
