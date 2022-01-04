@@ -52,6 +52,7 @@ def _send_order_email(order):
         packages.append(dict)
     context['packages'] = packages
     context['package_type'] = package_items[0].cart_main_category.title
+    context['package_name'] = package_items[0].product.title
     query = store_models.PriceManagement.objects.filter(rental=package_items[0].rental).first()
     if query is not None:
         context['rental'] = query.rental.period
