@@ -96,6 +96,11 @@ class Product(TimeStampedModel):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "Product"
+        verbose_name_plural = "Product"    
+
+
 class PriceManagement(TimeStampedModel):
     """ Product, week vise prices will be stored here"""
     id = models.UUIDField(default=uuid4, editable=False, primary_key=True)
@@ -115,6 +120,10 @@ class PriceManagement(TimeStampedModel):
     def __str__(self):
         return self.product.title + "  -  " + self.rental.period + "  -  " + str(self.price)
 
+    class Meta:
+        verbose_name = "Price Management"
+        verbose_name_plural = "Price Management"  
+
 
 class Quote(TimeStampedModel):
     full_name = models.CharField(max_length=64, verbose_name="Full Name")
@@ -125,3 +134,7 @@ class Quote(TimeStampedModel):
 
     def __str__(self):
         return self.full_name
+
+    class Meta:
+        verbose_name = "Quote"
+        verbose_name_plural = "Quote"  
