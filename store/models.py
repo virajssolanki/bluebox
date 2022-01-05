@@ -86,7 +86,6 @@ class Product(TimeStampedModel):
     product_main_category = models.ManyToManyField(
         'store.Category',
         verbose_name=('Category'),
-        verbose_name_plural = "Category",
         related_name='products',
     )
 
