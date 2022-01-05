@@ -51,7 +51,8 @@ class ItemAdmin(admin.ModelAdmin):
 class Box_Products(models.Product):
     class Meta:
         proxy = True
-        verbose_name = ("Box Products")
+        verbose_name = ("Box Product")
+        verbose_name_plural = "Box Product"
 
 
 class BoxProductsAdmin(ItemAdmin):
@@ -71,7 +72,9 @@ class BoxProductsAdmin(ItemAdmin):
 class Moving_Products(models.Product):
     class Meta:
         proxy = True
-        verbose_name = ("Moving Supplies")
+        verbose_name = ("Moving Supply")
+        verbose_name_plural = "Moving Supply"
+
 
 
 class MovingProductsAdmin(ItemAdmin):
@@ -89,7 +92,9 @@ class MovingProductsAdmin(ItemAdmin):
 class Packing_Products(models.Product):
     class Meta:
         proxy = True
-        verbose_name = ("Packing Supplies")
+        verbose_name = ("Packing Supply")
+        verbose_name_plural = "Packing Supply"
+
 
 class PackingProductsAdmin(ItemAdmin):
     fields = ['product_main_category','product_sub_category', 'title', 'price', 'unit', 'subtitle', 'image', 'description']
