@@ -28,6 +28,10 @@ class RentalPeriod(TimeStampedModel):
 
     def __str__(self):
         return self.period
+    
+    class Meta:
+        verbose_name= _("Rental Period")
+        verbose_name_plural = "RentalPeriod"  
 
 
 
@@ -39,7 +43,9 @@ class Category(TimeStampedModel):
     def __str__(self):
         return self.title
 
-    # Fetch related sub_categories
+    class Meta:
+        verbose_name= _("Category")
+        verbose_name_plural = "Category"  
 
 
 
@@ -51,6 +57,10 @@ class SubCategory(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name= _("Sub Category")
+        verbose_name_plural = "Sub Category"  
 
 
 def upload_to(instance, filename):
@@ -76,6 +86,7 @@ class Product(TimeStampedModel):
     product_main_category = models.ManyToManyField(
         'store.Category',
         verbose_name=('Category'),
+        verbose_name_plural = "Category",
         related_name='products',
     )
 

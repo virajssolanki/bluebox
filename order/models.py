@@ -22,7 +22,7 @@ class UnavailableDates(models.Model):
     
     class Meta:
         verbose_name= _("Block Dates")
-
+        verbose_name_plural = "Block Date"  
 
 ORDER_STATUS = (
     ('pend', 'Pending'), ('prc', 'Processing'), ('cnf', 'Confirmed'),
@@ -57,6 +57,7 @@ class OrderDetail(TimeStampedModel):
     
     class Meta:
         verbose_name = "Order"
+        verbose_name_plural = "Order"  
 
     def __str__(self):
         return self.order_id
@@ -76,6 +77,10 @@ class CartItem(TimeStampedModel):
     inital_price = models.FloatField(default=1, null=True, blank=False)
 
     order = models.ForeignKey('order.OrderDetail', blank=True, null=True, related_name='cart_items' , on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Cart Item"
+        verbose_name_plural = "Cart Item"  
 
     def __str__(self):
         return self.session + "--->" + self.product.title
@@ -111,6 +116,10 @@ class DeliveryAddress(TimeStampedModel):
     def __str__(self):
         return str(self.delivery_date)
 
+    class Meta:
+        verbose_name = "Delivery Address"
+        verbose_name_plural = "Delivery Address"  
+
 
 class PickupAddress(TimeStampedModel):
     """Pickup Address item vise"""
@@ -136,6 +145,11 @@ class PickupAddress(TimeStampedModel):
     def __str__(self):
         return str(self.pickup_date)
 
+    class Meta:
+        verbose_name = "Pickup Address"
+        verbose_name_plural = "Pickup Address"  
+
+
 
 PAYMENT_STATUS = (
     ('pend', 'Pending'),
@@ -151,6 +165,11 @@ class PaymentDetail(TimeStampedModel):
     provider = models.CharField(max_length=100)
     status = models.CharField(max_length=50, choices=PAYMENT_STATUS, default="pend", verbose_name="Order Status")
     discount = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Payment Detail"
+        verbose_name_plural = "Payment Detail"  
+
 
 
 COUPON_TYPES = (
@@ -171,7 +190,11 @@ class Discount(TimeStampedModel):
 
     def __str__(self):
         return self.title
-    
+
+    class Meta:
+        verbose_name = "Discount"
+        verbose_name_plural = "Discount" 
+
 
 class PersonalDetail(TimeStampedModel):
     """User personal details will be stored here"""
@@ -190,4 +213,5 @@ class PersonalDetail(TimeStampedModel):
         return self.first_name + " " + self.last_name
 
     class Meta:
-        verbose_name= _("Customers")
+        verbose_name= _("Customer")
+        verbose_name_plural = "Customer" 
